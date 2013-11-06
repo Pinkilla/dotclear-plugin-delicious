@@ -15,7 +15,7 @@ if (!defined('DC_CONTEXT_ADMIN')) { return; }
 global $core;
 
 # Ajouter le plugin dans la liste des plugins du menu de l'administration
-# TODO Dans la vesion de franck, je vois Blog plutôt que Pugin, je change … par contre dans la doc, je vois plugin ^^
+# TODO Dans la vesion de franck, je vois Blog plutôt que Plugin, je change … par contre dans la doc, je vois plugin ^^
 $_menu['Plugins']->addItem(
 #$_menu['Blog']->addItem(
 	# nom du lien (en anglais)

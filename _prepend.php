@@ -9,6 +9,6 @@
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 # -- END LICENSE BLOCK ------------------------------------ 
-global $__autoload;
-$__autoload['deliciousClass'] = dirname(__FILE__).'/inc/delicious.class.php'; 
+
+
 ?>
