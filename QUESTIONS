@@ -1,0 +1,7 @@
+QUESTIONS
+
+Vaut-il mieux utiliser 
+$core->blog->settings->monplugin->put($key, $value);			
+ou 
+$core->auth->user_prefs->monplugin->put
+	('user', 'name','string','User id on delicous');
