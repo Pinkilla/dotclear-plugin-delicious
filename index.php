@@ -1,7 +1,18 @@
 <?php
+# -- BEGIN LICENSE BLOCK ----------------------------------
+# This file is part of Plugin-Delicious, a plugin for Dotclear 2.
+#
+# Copyright (c) Pinkilla and contributors
+# <pb@namok.be>
+#
+# Licensed under the GPL version 2.0 license.
+# A copy of this license is available in LICENSE file or at
+# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+# -- END LICENSE BLOCK ------------------------------------ 
+
 if (!defined('DC_CONTEXT_ADMIN')) { exit; }
 
-require_once dirname(__FILE__) . '/delicious.class.php';
+require_once dirname(__FILE__) . '/inc/delicious.class.php';
 
 // Lecture des paramètres de configuration dans le fichier ini
 $config_file = dirname(__FILE__) . '/settings.ini';
@@ -11,7 +22,8 @@ $user = '';
 $tag = '';
 $count = '';
 // Définition d'un namespace dans la DB
-$delicious_ns = 'delicious'; 
+//$delicious_ns = 'delicious'; 
+//$core->blog->settings->addNameSpace($delicious_ns);
 
 // On arrive suite à un post du formulaire
 if (isset($_POST['update']) && ($_POST['update'] == '1')) {
@@ -22,13 +34,14 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 		'delicious_count' => $_POST['delicious_count']
 	);
 
-	// Nécessité d'écrire dans la DB (ça évite les lecture j'imagine)
+	// Nécessité d'écrire dans la DB (ça évite les lectures j'imagine)
 	try {
-		$core->blog->settings->setNameSpace($delicious_ns);
+		$core->blog->settings->addNameSpace('delicious');
 		foreach ($new_settings as $key => $value) {
-			$core->blog->settings->put($key, $value);
-			$core->blog->triggerBlog();
+			$core->blog->settings->delicious->put($key, $value);			
 		}
+		$core->blog->triggerBlog();
+		dcPage::addSuccessNotice(__('Settings have been successfully updated.'));
 	} catch (Exception $e) {
 		$core->error->add($e->getMessage());
 	}
@@ -64,6 +77,16 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 	</h2>
 
 	<?php
+	echo dcPage::breadcrumb(
+		array(
+			html::escapeHTML($core->blog->name) => '',
+			__('delicious') => ''
+		)
+	);
+
+	echo dcPage::notices();
+
+/*
 	if (count($errors) > 0) {
 		// Il y a eu des erreurs pendant la gestion des paramètres
   		echo '<div class="error"><ul>';
@@ -78,14 +101,18 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 		// Ni erreur ni update, j'arrive pour la première fois
 		// mais quoi qu'il arrrive, j'affiche le formulaire ... 
 	}
+	*/
 ?>
 <!-- Affichage des valeurs dans le tab 'view'-->
 <div class="multi-part" id="view" title="Informations">
 	<h3><?php echo __('Current configuration') ?></h3>
   	<?php 
-		$user = (isset($settings['delicious_user'])) ? $settings['delicious_user'] : ''; 
-		$tag = (isset($settings['delicious_tag'])) ? $settings['delicious_tag'] : ''; 
-		$count = (isset($settings['delicious_count'])) ? $settings['delicious_count'] : 'default'; 
+		$user = (isset($settings['delicious_user'])) 
+			? $settings['delicious_user'] : ''; 
+		$tag = (isset($settings['delicious_tag'])) 
+			? $settings['delicious_tag'] : ''; 
+		$count = (isset($settings['delicious_count'])) 
+			? $settings['delicious_count'] : 'default'; 
 	?>
 	<p>
 		Current user: <?php echo $user ?> <br/>
@@ -103,13 +130,16 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 	<form action="<?php echo $p_url ?>" method="post">'
 		<fieldset><legend>Enter settings in the form below</legend>
 			<p><label for="delicious_user">Default user</label>
-				<?php echo form::field('delicious_user',30,128,$settings['user']) ?>
+				<?php echo form::field('delicious_user',30,128,
+					$settings['delicious_user']) ?>
 			</p>
 			<p><label for="delicious_tag">Default tag</label>
-				<?php echo form::field('delicious_tag',30,128,$settings['tag']) ?>
+				<?php echo form::field('delicious_tag',30,128,
+					$settings['delicious_tag']) ?>
 			</p>
 			<p><label for="delicious_count">Default count</label>
-				<?php echo form::field('delicious_count',30,128,$settings['count']) ?>
+				<?php echo form::field('delicious_count',30,128,
+					$settings['delicious_count']) ?>
 			</p>
 			<p>
 				<input type="hidden" name="update" value="1"/>

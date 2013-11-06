@@ -8,13 +8,16 @@
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
 # http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-# -- END LICENSE BLOCK ------------------------------------
+# -- END LICENSE BLOCK ------------------------------------ 
 
 if (!defined('DC_CONTEXT_ADMIN')) { return; }
 
+global $core;
 
-# ajouter le plugin dans la liste des plugins du menu de l'administration
+# Ajouter le plugin dans la liste des plugins du menu de l'administration
+# TODO Dans la vesion de franck, je vois Blog plutôt que Pugin, je change … par contre dans la doc, je vois plugin ^^
 $_menu['Plugins']->addItem(
+#$_menu['Blog']->addItem(
 	# nom du lien (en anglais)
 	__('Delicious'),
 	# URL de base de la page d'administration
@@ -24,6 +27,6 @@ $_menu['Plugins']->addItem(
 	# expression régulière de l'URL de la page d'administration
 	preg_match('/plugin.php\?p=delicious(&.*)?$/',
 		$_SERVER['REQUEST_URI']),
-	# persmissions nécessaires pour afficher le lien
+	# permissions nécessaires pour afficher le lien
 	$core->auth->check('usage,contentadmin',$core->blog->id));
 ?>
