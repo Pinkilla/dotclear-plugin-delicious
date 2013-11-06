@@ -1,7 +1,7 @@
 #dotclear-plugin-delicious
 ##Plugin Delicious for Dotclear
 Plugin permettant d'ajouter des liens en provenance de delicious dans une page ou dans une sidebar quelconque de dotclear par le biais d'un template 
-  {{tpl:Delicious}}
+	{{tpl:Delicious}}
 
 *Actuellement, ce n'est pas fonctionnel, ça casse tout :-( *
 
@@ -12,6 +12,9 @@ Plugin permettant d'ajouter des liens en provenance de delicious dans une page o
 ###TODOS
 * Gérer le changement au niveau de l'API Delicious
 * Changer la notion de préférences utilisateur en utilisant <http://fr.dotclear.org/documentation/2.6/resources/plugins/prefs>
+
+####Auteur
+[Pinkilla](http:blog.namok.be) <pb@namok.be> 
 
 
 
