@@ -11,11 +11,13 @@
 # -- END LICENSE BLOCK ------------------------------------ 
 if (!defined('DC_RC_PATH')) { return; }
 
-global $core;
+// Ne semble plus utile
+//global $core;
 
 $core->tpl->addValue('Delicious',array('deliciusClass','deliciousFct'));
 
-class deliciousClass extends dcUrlHandlers {
+//class deliciousClass extends dcUrlHandlers {
+class deliciousClass {
 	const 
 		//URL =
 		//"http://feeds.delicious.com/html/USER/TAG?count=COUNT&tags=no&rssbutton=no";
@@ -27,7 +29,7 @@ class deliciousClass extends dcUrlHandlers {
 	public static function deliciousFct($attr) {
     // Get user prefs from delicious workspace
 
-		/* todo gérer le faut que l'utilisateur puisse passer des valeurs en paramètres. dans ce cas, elles prévalent sur les préfs */
+		/* todo gérer le fait que l'utilisateur puisse passer des valeurs en paramètres. dans ce cas, elles prévalent sur les préfs */
 		
 		$user = $core->auth->user_prefs->delicious->user; 
 		$tag = $core->auth->user_prefs->delicious->tag; 
@@ -37,7 +39,7 @@ class deliciousClass extends dcUrlHandlers {
 		$url = str_replace('USER', htmlentities($user), self::URL);
 		$url = str_replace('TAG', htmlentities($tag), $url); 
 		$url = str_replace('COUNT', htmlentities($count), $url); 
-		return HttpClient::quickGet($url);
+		return HttpClient::quickGet($url);		
 	}
 }
 
@@ -46,4 +48,4 @@ $core->url->register('delicious','delicious','^delicious$',
 	array('deliciousClass','deliciousFct'));
  */
 /*require_once dirname(__FILE__) . '/inc/delicious.class.php';*/
-?>
+

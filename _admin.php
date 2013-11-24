@@ -29,4 +29,4 @@ $_menu['Plugins']->addItem(
 		$_SERVER['REQUEST_URI']),
 	# permissions nécessaires pour afficher le lien
 	$core->auth->check('usage,contentadmin',$core->blog->id));
-?>
+

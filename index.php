@@ -15,20 +15,21 @@ if (!defined('DC_CONTEXT_ADMIN')) { exit; }
 // On arrive suite à un post du formulaire, dans ce cas,
 // j'enregistre les valeurs en user_prefs
 if (isset($_POST['update']) && ($_POST['update'] == '1')) {
+//if (!empty($_POST)){
 	// Récupération de paramètres
-	$user = $_POST['delicious_user'];
-	$tag = $_POST['delicious_tag'];
-	$count = $_POST['delicious_count'];
+	$user = trim($_POST['user']);
+	$tag = trim($_POST['tag']);
+	$count = trim($_POST['count']);
 
 	try {
 		$core->auth->user_prefs->addWorkSpace('delicious');
 		$delicious_prefs = &$core->auth->user_prefs->delicious;
-		$delicious_prefs->put('user', '','string','User id on delicous');
-		$delicious_prefs->put('tag', 'dotclear','string','A tag');
-		$delicious_prefs->put('count', 5,'integer','Number of links');	
+		$delicious_prefs->put('user', $user,'string','User id on delicous');
+		$delicious_prefs->put('tag', $tag,'string','A tag');
+		$delicious_prefs->put('count', $count,'integer','Number of links');	
 
 		$core->blog->triggerBlog();
-		dcPage::addSuccessNotice(__('Settings have been successfully updated.'));
+		dcPage::addSuccessNotice(__('Settings have been successfully updated.'.$user));
 	} catch (Exception $e) {
 		$core->error->add($e->getMessage());
 	}
@@ -36,6 +37,12 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 	http::redirect($p_url.'&updated=1');
 	exit;
 }
+
+// De toutes façon, je lis les valeurs
+$core->auth->user_prefs->addWorkSpace('delicious');
+$user = $core->auth->user_prefs->delicious->user;
+$tag = $core->auth->user_prefs->delicious->tag;
+$count = $core->auth->user_prefs->delicious->count;
 ?>
 
 <html>
@@ -67,10 +74,11 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 <div class="multi-part" id="view" title="Informations">
 	<h3><?php echo __('Current configuration') ?></h3>
   	<?php 
-  		$core->auth->user_prefs->addWorkSpace('delicious');
-		$user = $core->auth->user_prefs->delicious->user;
-		$tag = $core->auth->user_prefs->delicious->tag;
-		$count = $core->auth->user_prefs->delicious->count;
+  	//todo déjà lu, a effacer
+  		//$core->auth->user_prefs->addWorkSpace('delicious');
+		//$user = $core->auth->user_prefs->delicious->user;
+		//$tag = $core->auth->user_prefs->delicious->tag;
+		//$count = $core->auth->user_prefs->delicious->count;
 	?>
 	<p>
 		Current user: <?php echo $user ?> <br/>
@@ -87,16 +95,16 @@ if (isset($_POST['update']) && ($_POST['update'] == '1')) {
 	<form action="<?php echo $p_url ?>" method="post">'
 		<fieldset><legend>Enter settings in the form below</legend>
 			<p><label for="delicious_user">Default user</label>
-				<?php echo form::field('delicious_user',30,128,
-					$settings['delicious_user']) ?>
+				<?php echo form::field('user',30,128,
+					html::escapeHTML($user)) ?>
 			</p>
 			<p><label for="delicious_tag">Default tag</label>
-				<?php echo form::field('delicious_tag',30,128,
-					$settings['delicious_tag']) ?>
+				<?php echo form::field('tag',30,128,
+					html::escapeHTML($tag)) ?>
 			</p>
 			<p><label for="delicious_count">Default count</label>
-				<?php echo form::field('delicious_count',30,128,
-					$settings['delicious_count']) ?>
+				<?php echo form::field('count',30,128,
+					html::escapeHTML($count)) ?>
 			</p>
 			<p>
 				<input type="hidden" name="update" value="1"/>

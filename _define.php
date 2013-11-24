@@ -15,11 +15,11 @@ $this->registerModule(
         /* Name */			"Delicious",
         /* Description*/    "Get delicious links",
         /* Author */        "Pierre Bettens, Pinkilla",
-        /* Version */       '0.0.2',
+        /* Version */       '0.1.0',
         array(
 		/* Permissions */	'permissions' =>	'usage, contentadmin',
 		/* Configuration 	'standalone_config'	=> true,*/
 		/* Type */			'type' =>			'plugin'
 		)        
 );
-?>
+
